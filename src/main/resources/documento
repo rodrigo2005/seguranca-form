@@ -1,0 +1,63 @@
+Versão do java neste exemplo: 1.6
+Servidor: jboss-as-7.1.1.Final
+
+################## - SQL para funcionamento do exemplo
+
+
+create database seguranca;
+
+use seguranca;
+	
+create table user(
+id int primary key not null auto_increment,
+email varchar(30) not null,
+password varchar(32) not null);
+ 
+create table role(
+id int primary key not null,
+name varchar(30) not null
+);
+ 
+create table user_role(
+user_id int not null,
+role_id int not null,
+    PRIMARY KEY(user_id,role_id),
+    FOREIGN KEY (user_id) REFERENCES user(id),
+    FOREIGN KEY (role_id) REFERENCES role(id)
+);
+
+
+-- adicionar roles
+
+INSERT INTO role(id,name) VALUES (1,'APLICATIVO-R');
+ 
+INSERT INTO role(id,name) VALUES (2, 'APLICATIVO-X');
+
+INSERT INTO role(id,name) VALUES (3,'APLICATIVO-Y');
+
+-- adicionar usuario
+
+INSERT INTO user (email,password)VALUES('user1@gmail.com','passwd1');
+INSERT INTO user (email,password)VALUES('user2@gmail.com','passwd2');
+
+-- adicionar relação entre user e role
+ 
+INSERT INTO user_role(user_id,role_id)VALUES(1,3);
+INSERT INTO user_role(user_id,role_id)VALUES(2,2);
+
+
+
+
+
+
+<security-domain name="jaasTesteJaas" cache-type="default">
+<authentication>
+<login-module code="Database" flag="required">
+<module-option name="dsJndiName" value="java:/TesteJaas"/>
+<module-option name="principalsQuery" value="select password from user where email=?"/>
+<module-option name="rolesQuery" value="select r.name, 'Roles' from user u, role r, user_role ur where u.id = ur.user_id AND r.id = ur.role_id AND u.email = ?"/>
+<module-option name="hashAlgorithm" value="MD5"/>
+<module-option name="hashEncoding" value="base64"/>
+</login-module>
+</authentication>
+ </security-domain>
