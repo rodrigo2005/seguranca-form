@@ -4,9 +4,6 @@
 
 Versãoo do java neste exemplo: 1.6 <br/>
 Servidor: jboss-as-7.1.1.Final
-
-* Configure o standalone.xml
-No subsystem de security adicione as seguintes linhas dentro da tag <security-domains>
 <pre>
 <security-domain name="jaasTesteJaas" cache-type="default">
 <authentication>
