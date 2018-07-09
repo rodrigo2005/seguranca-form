@@ -7,7 +7,7 @@ Servidor: jboss-as-7.1.1.Final
 
 * Configure o standalone.xml
 No subsystem de security adicione as seguintes linhas dentro da tag <security-domains>
-
+<p>
 <security-domain name="jaasTesteJaas" cache-type="default">
 <authentication>
 <login-module code="Database" flag="required">
@@ -19,3 +19,4 @@ No subsystem de security adicione as seguintes linhas dentro da tag <security-do
 </login-module>
 </authentication>
  </security-domain> 
+</p>
